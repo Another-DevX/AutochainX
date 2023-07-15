@@ -20,44 +20,31 @@ import {
   zora,
   goerli
 } from 'wagmi/chains'
-import { Chain } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
-
-// const AutochainX: Chain = {
-//   id: 43_114,
-//   name: 'AutochainX',
-//   network: 'avalanche',
-//   iconUrl: 'https://example.com/icon.svg',
-//   iconBackground: '#fff',
-//   nativeCurrency: {
-//     decimals: 18,
-//     name: 'Oрех',
-//     symbol: 'OPX'
-//   },
-//   rpcUrls: {
-//       default: {
-//           http: ['https://api.avax.network/ext/bc/C/rpc']
-//       },
-//       public: {
-//           http: [],
-//           webSocket: undefined
-//       }
-//   },
-//   blockExplorers: {
-//     default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-//     etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' }
-//   },
-//   testnet: true
-// }
+import { Chain } from '@wagmi/core'
+ 
+export const avalanche = {
+  id: 979797,
+  name: 'AutoChainX',
+  network: 'avalanche',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'OPEX',
+    symbol: 'OPX',
+  },
+  rpcUrls: {
+    public: { http: ['http://127.0.0.1:9650/ext/bc/2GyHK2AczFbKxxUke3M5c1sTv1uGPuY9UMpNuRqWmUntW2KAX2/rpc'] },
+    default: { http: ['http://127.0.0.1:9650/ext/bc/2GyHK2AczFbKxxUke3M5c1sTv1uGPuY9UMpNuRqWmUntW2KAX2/rpc'] },
+  },
+  blockExplorers: {
+    etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+  },
+} as const satisfies Chain
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    zora,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : [])
+    avalanche
   ],
   [publicProvider()]
 )
@@ -76,14 +63,6 @@ const demoAppInfo = {
 
 const connectors = connectorsForWallets([
   ...wallets,
-  {
-    groupName: 'Other',
-    wallets: [
-      argentWallet({ projectId, chains }),
-      trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains })
-    ]
-  }
 ])
 
 const wagmiConfig = createConfig({
