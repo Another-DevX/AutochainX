@@ -6,20 +6,8 @@ import {
   getDefaultWallets,
   connectorsForWallets
 } from '@rainbow-me/rainbowkit'
-import {
-  argentWallet,
-  trustWallet,
-  ledgerWallet
-} from '@rainbow-me/rainbowkit/wallets'
+// import { sepolia } from 'wagmi'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  zora,
-  goerli
-} from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { Chain } from '@wagmi/core'
  
@@ -33,8 +21,8 @@ export const avalanche = {
     symbol: 'OPX',
   },
   rpcUrls: {
-    public: { http: ['http://127.0.0.1:9650/ext/bc/2GyHK2AczFbKxxUke3M5c1sTv1uGPuY9UMpNuRqWmUntW2KAX2/rpc'] },
-    default: { http: ['http://127.0.0.1:9650/ext/bc/2GyHK2AczFbKxxUke3M5c1sTv1uGPuY9UMpNuRqWmUntW2KAX2/rpc'] },
+    public: { http: ['http://127.0.0.1:9650/ext/bc/566EHxvrPKPBN4hJ165pSXYQu5R1cd2cPS91E2xRye5an6bWG/rpc'] },
+    default: { http: ['http://127.0.0.1:9650/ext/bc/566EHxvrPKPBN4hJ165pSXYQu5R1cd2cPS91E2xRye5an6bWG/rpc'] },
   },
   blockExplorers: {
     etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
