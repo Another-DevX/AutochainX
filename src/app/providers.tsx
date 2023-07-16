@@ -6,7 +6,6 @@ import {
   getDefaultWallets,
   connectorsForWallets
 } from '@rainbow-me/rainbowkit'
-// import { sepolia } from 'wagmi'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { Chain } from '@wagmi/core'

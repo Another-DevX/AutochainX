@@ -10,6 +10,7 @@ import {
 } from 'wagmi'
 import contractAbi from './contract-abi.json'
 import Image from 'next/image'
+import moment from 'moment'
 const JWT = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwODdhYjZmNi01YTRjLTRhNDgtOGYyOS05ODQxZjdkZjE2NzMiLCJlbWFpbCI6Impvc2VsdWlzbWFuY28zN0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiNzI0ZjNjY2MyMTVkNTJkZDVlMWQiLCJzY29wZWRLZXlTZWNyZXQiOiI1ZGI3NmEwNGVmNTRkYjFlMjMyZmEzMzkzNDdmYzZkM2FlZWY0ZmIyZGM4MGZlZTY3MjgwNGYyZDUxMmI3ZGJlIiwiaWF0IjoxNjg5MzA2NzI1fQ.1nafMrbsgr66YCP0UHEBez4Se6oUOGs3X6gMY7tKMiM`
 
 export default function Home () {
@@ -20,13 +21,13 @@ export default function Home () {
   const { isConnected, address } = useAccount()
 
   const { config: configMint } = usePrepareContractWrite({
-    address: 'Here is a valid address in the avalanche local subnet',
+    address: 'Please put a smart contract valid for u local subnet',
     abi: contractAbi,
     functionName: 'safeMint',
     args: [param[0], param[1]]
   })
   const { config: configUpdate } = usePrepareContractWrite({
-    address: 'Here is a valid address in the avalanche local subnet',
+    address: 'Please put a smart contract valid for u local subnet',
     abi: contractAbi,
     functionName: 'addURI',
     args: [param[1], 1]
@@ -38,13 +39,13 @@ export default function Home () {
     status: statusMint
   } = useContractWrite(configMint)
   const { data: hasUri } = useContractRead({
-    address: 'Here is a valid address in the avalanche local subnet',
+    address: 'Please put a smart contract valid for u local subnet',
     abi: contractAbi,
     functionName: 'balanceOf',
     args: [address]
   })
   const { data: ipfs } = useContractRead({
-    address: 'Here is a valid address in the avalanche local subnet',
+    address: 'Please put a smart contract valid for u local subnet',
     abi: contractAbi,
     functionName: 'tokenURI',
     args: [1]
@@ -109,11 +110,11 @@ export default function Home () {
           attributes: [
             ...prevData.data.attributes,
             {
-              trait_type: 'Tecno',
+              trait_type: `Tecno ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
               value: resTecno.data.IpfsHash
             },
             {
-              trait_type: 'Soat',
+              trait_type: `Soat ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
               value: resSoat.data.IpfsHash
             }
           ]
@@ -184,11 +185,11 @@ export default function Home () {
             'https://elcarrocolombiano.com/wp-content/uploads/2021/02/20210208-TOP-75-CARROS-MAS-VENDIDOS-DE-COLOMBIA-EN-ENERO-2021-01.jpg',
           attributes: [
             {
-              trait_type: 'Tecno',
+              trait_type: `Tecno ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
               value: resTecno.data.IpfsHash
             },
             {
-              trait_type: 'Soat',
+              trait_type: `Soat ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
               value: resSoat.data.IpfsHash
             }
           ]
@@ -287,10 +288,21 @@ export default function Home () {
           <img className='h-5/6 w-5/6 m-2' src={data.image} alt='' />
           <div className='flex flex-col gap-5'>
             {data.attributes.map((item: any, index: number) => (
-              <div className='bg-slate-100 shadow-sm rounded-sm p-2' key={(item.value, index)}>
-                <p className='font-ligth font-bold' >{item.trait_type}</p>
-                <p className='font-ligth' >{item.value}</p>
-              </div>
+              <a
+                href={`https://ipfs.io/ipfs/${item.value}`}
+                target='_blank'
+                className='bg-slate-100 shadow-sm rounded-sm p-2 cursor-pointer'
+                key={(item.value, index)}
+              >
+                <p className='font-ligth font-bold'>
+                  {item.trait_type.split(' ').length > 1
+                    ? `${item.trait_type.split(' ')[0]} ${moment(
+                        item.trait_type.split(' ')[1]
+                      ).format('YYYY-MM-DD')}`
+                    : item.trait_type}
+                </p>
+                <p className='font-ligth'>{item.value}</p>
+              </a>
             ))}
           </div>
         </div>
